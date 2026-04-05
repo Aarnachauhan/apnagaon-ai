@@ -75,10 +75,9 @@ App will run on:
 
 ## 📸 UI Preview
 
-<img width="2880" height="1800" alt="image" src="https://github.com/user-attachments/assets/5b3b2cc5-50ab-4127-8c33-d9439f5390e2" />
+<img width="2880" height="1800" alt="image" src="https://github.com/user-attachments/assets/c2aabea9-be23-47ee-b6b8-6ec81996e096" />
 
-<img width="2880" height="1800" alt="image" src="https://github.com/user-attachments/assets/7d22d5aa-67c4-42e2-a967-01169636f30a" />
-
+![Uploading image.png…]()
 
 
 ---
