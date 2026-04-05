@@ -77,8 +77,7 @@ App will run on:
 
 <img width="2880" height="1800" alt="image" src="https://github.com/user-attachments/assets/c2aabea9-be23-47ee-b6b8-6ec81996e096" />
 
-![Uploading image.png…]()
-
+<img width="2880" height="1800" alt="image" src="https://github.com/user-attachments/assets/5ee7b6c1-1a67-433f-9be8-edcfa538140d" />
 
 ---
 
