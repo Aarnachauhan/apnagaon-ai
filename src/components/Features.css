@@ -1,0 +1,84 @@
+.features-section {
+  margin-top: 30px;   /* reduced gap */
+  padding: 0 40px;
+}
+/* GRID */
+.features-grid {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+/* CARD */
+.feature-card {
+  background: white;
+  border-radius: 18px;
+  padding: 25px;
+  width: 260px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  transition: 0.3s;
+  position: relative;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+/* TOP ICON */
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  background: #eef3ea;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  font-size: 22px;
+}
+
+/* TEXT */
+.feature-card h3 {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.feature-card p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* BOTTOM ICON */
+.bottom-icon {
+  margin-top: 15px;
+  font-size: 28px;
+}
+
+/* 🔥 VOICE BANNER */
+.voice-banner {
+  margin-top: 40px;
+  background: #eef3ea;
+  border-radius: 20px;
+  padding: 25px 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* LEFT ICON */
+.banner-left {
+  font-size: 32px;
+}
+
+/* TEXT */
+.banner-text h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.banner-text p {
+  margin: 5px 0 0;
+  color: #666;
+}

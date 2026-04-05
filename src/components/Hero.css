@@ -1,0 +1,86 @@
+.hero-container {
+  padding: 40px 80px;
+}
+
+/* TOP SECTION */
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LEFT */
+.hero-left {
+  flex: 1;
+}
+
+.hero-left h1 {
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.hero-left span {
+  color: #6da85c;
+}
+
+.hero-left p {
+  margin-top: 10px;
+  color: #666;
+  max-width: 500px;
+}
+
+/* RIGHT IMAGE */
+.hero-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* 🔥 FIX IMAGE SHAPE */
+/* 🔥 MAGIC FIX */
+.hero-right img {
+  width: 500px;
+  height: 250px;        /* force landscape */
+  object-fit: cover;    /* crop automatically */
+
+  border-radius: 20px;  /* soft UI look */
+
+  opacity: 0.9;
+}
+.hero-left p {
+  margin: 4px 0;   /* reduce spacing */
+  line-height: 1.4;
+}
+
+/* 🔥 CENTER BIG CARDS */
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 60px;
+}
+
+/* BIGGER CARDS */
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  width: 240px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+.card h3 {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #777;
+}
