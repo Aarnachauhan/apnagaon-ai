@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import "./Mic.css";
 
 const Mic = () => {
+  const navigate = useNavigate(); // ✅ correct place
+
   const {
     transcript,
     listening,
@@ -17,12 +20,8 @@ const Mic = () => {
   const handleMicClick = () => {
     if (listening) {
       SpeechRecognition.stopListening();
-    } else {
-      SpeechRecognition.startListening({
-        continuous: true,
-        language: "en-IN"
-      });
     }
+    navigate("/chat");
   };
 
   return (
@@ -31,7 +30,7 @@ const Mic = () => {
         onClick={handleMicClick}
         className={`mic-btn ${listening ? "listening" : ""}`}
       >
-        {listening ? "🎙 Listening..." : "🎤 Ask ApnaGaon AI"}
+        🎤 Ask ApnaGaon AI
       </button>
 
       <div className="mic-output">
