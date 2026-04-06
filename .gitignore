@@ -26,6 +26,7 @@ __pycache__/
 
 # vosk model (VERY IMPORTANT)
 python/model/
+backend/python/model/
 
 # uploads
 uploads/
