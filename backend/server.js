@@ -5,6 +5,16 @@ const { spawn } = require("child_process");
 const ffmpeg = require("fluent-ffmpeg");
 const fs = require("fs");
 
+const {
+  generateReplyEnglish,
+  generateReplyHindi,
+} = require("./services/responseEngine");
+
+const {
+  toEnglish,
+  toHindi,
+} = require("./services/translator");
+
 const app = express();
 const PORT = 5000;
 
@@ -12,64 +22,62 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-// File upload setup
+// File upload
 const upload = multer({ dest: "uploads/" });
 
-/* =========================
-   🧠 RESPONSE ENGINE
-========================= */
-function generateReply(text) {
-  if (!text) return "I didn't catch that. Please speak again.";
+//  Toggle this manually or later make dynamic
+const isOnline = true;
 
-  const t = text.toLowerCase();
-
-  if (t.includes("weather")) {
-    return "Weather info will be available soon.";
-  }
-
-  if (t.includes("crop")) {
-    return "You can grow rice, wheat, or pulses depending on the season.";
-  }
-
-  if (t.includes("hello") || t.includes("hi")) {
-    return "Hello! How can I help you today?";
-  }
-
-  return "no response for this ";
-}
-
-/* =========================
-   💬 CHAT ROUTE
-========================= */
-app.post("/chat", (req, res) => {
+//chat route
+app.post("/chat", async (req, res) => {
   const { message } = req.body;
 
-  console.log("User message:", message);
+  console.log("🧾 Hindi Input:", message);
 
-  const reply = generateReply(message);
+  try {
+    if (isOnline) {
+      //  Hindi → English
+      const englishText = await toEnglish(message);
+      console.log(" English:", englishText);
 
-  res.json({ reply });
+      //  Process in English
+      const replyEnglish = generateReplyEnglish(englishText);
+      console.log(" Reply EN:", replyEnglish);
+
+      //  English → Hindi
+      const finalReply = await toHindi(replyEnglish);
+      console.log(" Reply HI:", finalReply);
+
+      return res.json({ reply: finalReply });
+    } else {
+      //  Offline fallback
+      const reply = generateReplyHindi(message);
+      return res.json({ reply });
+    }
+  } catch (err) {
+    console.error(" Error, fallback:", err);
+
+    const fallback = generateReplyHindi(message);
+    res.json({ reply: fallback });
+  }
 });
 
-/* =========================
-   🎤 STT ROUTE (VOSK)
-========================= */
+//STT route
 app.post("/stt", upload.single("audio"), (req, res) => {
   try {
     const inputPath = req.file.path;
     const outputPath = inputPath + ".wav";
 
-    console.log("📥 Received audio:", inputPath);
+    console.log(" Received audio:", inputPath);
 
-    // 🔄 Convert WEBM → WAV
+    // Convert to WAV
     ffmpeg(inputPath)
-      .audioChannels(1)        // mono
-      .audioFrequency(16000)   // 16kHz
+      .audioChannels(1)
+      .audioFrequency(16000)
       .format("wav")
       .on("end", () => {
-        console.log("✅ Conversion done:", outputPath);
+        console.log(" Converted to WAV");
 
-        // 🧠 Run Python Vosk
         const python = spawn("python", ["python/stt.py", outputPath]);
 
         let output = "";
@@ -79,51 +87,39 @@ app.post("/stt", upload.single("audio"), (req, res) => {
         });
 
         python.stderr.on("data", (data) => {
-          console.error("❌ Python error:", data.toString());
+          console.error(" Python error:", data.toString());
         });
 
         python.on("close", () => {
           try {
             const result = JSON.parse(output);
 
-            console.log("🧾 STT result:", result);
+            console.log(" STT result:", result);
 
-            // 🧹 Cleanup temp files
+            // Cleanup
             fs.unlinkSync(inputPath);
             fs.unlinkSync(outputPath);
 
             res.json(result);
           } catch (err) {
-            console.error("❌ JSON parse error:", err);
-
-            res.status(500).json({
-              error: "STT parsing failed",
-              rawOutput: output
-            });
+            console.error(" Parse error:", err);
+            res.status(500).json({ error: "STT parsing failed" });
           }
         });
       })
       .on("error", (err) => {
-        console.error("❌ FFmpeg error:", err);
-
-        res.status(500).json({
-          error: "Audio conversion failed"
-        });
+        console.error(" FFmpeg error:", err);
+        res.status(500).json({ error: "Audio conversion failed" });
       })
       .save(outputPath);
 
   } catch (err) {
-    console.error("❌ Server error:", err);
-
-    res.status(500).json({
-      error: "Something went wrong in STT route"
-    });
+    console.error(" STT route error:", err);
+    res.status(500).json({ error: "STT route failed" });
   }
 });
 
-/* =========================
-   🚀 START SERVER
-========================= */
+//starts server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(` Server running on port ${PORT}`);
 });
