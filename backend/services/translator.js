@@ -1,18 +1,40 @@
-const { translate } = require("@vitalets/google-translate-api");
+/**
+ * translator.js
+ * Translates Hindi / Hinglish text to English using Google Translate.
+ * Falls back silently to original text on any failure.
+ */
 
-// Hindi → English
+let translate;
+
+async function loadTranslate() {
+  if (!translate) {
+    const mod = await import("@vitalets/google-translate-api");
+    translate = mod.translate;
+  }
+  return translate;
+}
+
+/**
+ * Translate any text to English.
+ * Returns original text if translation fails or text is already English.
+ * @param {string} text
+ * @returns {Promise<string>}
+ */
 async function toEnglish(text) {
-  const res = await translate(text, { to: "en" });
-  return res.text;
+  if (!text || typeof text !== "string") return text;
+
+  // If text is mostly ASCII (already English / Hinglish), skip translate
+  const nonAscii = (text.match(/[^\x00-\x7F]/g) || []).length;
+  if (nonAscii / text.length < 0.2) return text;
+
+  try {
+    const fn = await loadTranslate();
+    const result = await fn(text, { to: "en" });
+    return result.text || text;
+  } catch (err) {
+    console.warn("⚠️ Translation failed, using original:", err.message);
+    return text;
+  }
 }
 
-// English → Hindi
-async function toHindi(text) {
-  const res = await translate(text, { to: "hi" });
-  return res.text;
-}
-
-module.exports = {
-  toEnglish,
-  toHindi,
-};
+module.exports = { toEnglish };
