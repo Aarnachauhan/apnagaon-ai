@@ -1,107 +1,255 @@
+# 🌱 ApnaGaon AI – Offline Voice Assistant for Farmers
 
-# 🌾 ApnaGaon AI
-
-**ApnaGaon AI** is a voice-first web application designed to help farmers make better decisions using simple voice interaction.
-Users can ask questions in natural language and receive helpful guidance related to farming, markets, and government schemes.
+ApnaGaon AI is an offline-first voice-based assistant that helps farmers discover government schemes using speech input.
 
 ---
 
 ## 🚀 Features
 
-* 🎤 **Voice Input** – Ask questions using your voice
-* 🌱 **Crop Advisory** – Get solutions for crop-related problems
-* 💰 **Mandi Tracker** – Compare nearby market prices
-* 📋 **Scheme Navigator** – Discover government schemes easily
-* 🌐 **Multi-language Ready UI** – Designed for regional expansion
-* 🎨 **Modern UI** – Clean, minimal, and user-friendly design
+* 🎤 Voice input using browser mic
+* 🧠 Offline Speech-to-Text using Vosk
+* 🌐 Optional translation (fallback-safe)
+* 📊 Rule-based scheme recommendation engine
+* 💬 Chat-style UI (voice + text)
+* 📴 Works even without internet (core flow)
 
 ---
 
-## 🛠️ Tech Stack
-
-* **Frontend:** React.js
-* **Styling:** CSS
-* **Voice Recognition:** Web Speech API (`react-speech-recognition`)
-
----
-
-## 📂 Project Structure
+## 🏗️ Project Structure
 
 ```
-src/
-├── components/
-│   ├── Navbar.jsx
-│   ├── Hero.jsx
-│   ├── Mic.jsx
-│   ├── Features.jsx
-│   ├── Footer.jsx
-├── assets/
-├── App.js
-├── App.css
+apnagaon-ai/
+├── backend/
+│   ├── server.js
+│   ├── services/
+│   ├── python/
+│   │   ├── stt.py
+│   │   └── model/
+│   └── uploads/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   └── App.js
 ```
 
 ---
 
-## ▶️ Getting Started
+## ⚙️ Backend Setup (Node + Express)
 
-### 1. Clone the repository
-
-```
-git clone https://github.com/your-username/apnagaon-ai.git
-```
-
-### 2. Navigate to project folder
+### 1. Navigate to backend
 
 ```
-cd apnagaon-ai
+cd backend
 ```
 
-### 3. Install dependencies
+### 2. Install dependencies
+
+```
+npm install express cors multer fluent-ffmpeg
+npm install @vitalets/google-translate-api
+```
+
+---
+
+## 🐍 Python Setup (Vosk STT)
+
+### 1. Install Python packages
+
+```
+pip install vosk
+```
+
+---
+
+### 2. Download Vosk Hindi Model
+
+Download:
+👉 https://alphacephei.com/vosk/models
+
+Use:
+
+```
+vosk-model-small-hi-0.22
+```
+
+---
+
+### 3. Place model here:
+
+```
+backend/python/model/vosk-model-small-hi-0.22/
+```
+
+---
+
+## 🎧 FFmpeg Setup (REQUIRED)
+
+Vosk needs audio conversion.
+
+### Windows:
+
+* Download FFmpeg
+* Add to PATH
+
+Check:
+
+```
+ffmpeg -version
+```
+
+---
+
+## ▶️ Start Backend
+
+```
+node server.js
+```
+
+You should see:
+
+```
+🚀 Server running on http://localhost:5000
+```
+
+---
+
+## ⚛️ Frontend Setup (React)
+
+### 1. Go to root folder
+
+```
+cd ..
+```
+
+### 2. Install dependencies
 
 ```
 npm install
 ```
 
-### 4. Run the app
+---
+
+### 3. Install required packages
+
+```
+npm install react-router-dom
+```
+
+---
+
+### 4. Start frontend
 
 ```
 npm start
 ```
 
-App will run on:
-👉 http://localhost:3000
+---
+
+## 🔗 API Endpoints
+
+### POST `/chat`
+
+Request:
+
+```json
+{
+  "message": "क्या योजना है"
+}
+```
+
+Response:
+
+```json
+{
+  "type": "text",
+  "reply": "क्या आप किसान हैं?"
+}
+```
 
 ---
 
-## 📸 UI Preview
+### POST `/stt`
 
-<img width="2880" height="1800" alt="image" src="https://github.com/user-attachments/assets/c2aabea9-be23-47ee-b6b8-6ec81996e096" />
-
-<img width="2880" height="1800" alt="image" src="https://github.com/user-attachments/assets/5ee7b6c1-1a67-433f-9be8-edcfa538140d" />
-
----
-
-## 🌟 Future Enhancements
-
-* 🤖 AI-powered chatbot responses
-* 🔊 Text-to-Speech (AI speaking back)
-* 🌍 Multi-language support (Hindi & regional languages)
-* 📶 Offline functionality for rural areas
-* 📊 Smart analytics for farming decisions
+* Accepts audio file
+* Returns recognized Hindi text
 
 ---
 
-## 👩‍💻 Author
+## ⚠️ Important Notes
 
-**Aarna Chauhan**
-Computer Science Engineering Student
+### 1. Translation API limits
 
----
-
-## 📌 Note
-
-This project focuses on building a **voice-first experience for farmers**, aiming to simplify access to important agricultural information.
+* Google translate is unofficial
+* Can fail with `Too Many Requests`
+* System automatically falls back to Hindi
 
 ---
 
-⭐ If you like this project, consider giving it a star!
+### 2. Offline Capability
+
+| Feature     | Works Offline |
+| ----------- | ------------- |
+| STT (Vosk)  | ✅             |
+| Rule Engine | ✅             |
+| Translation | ❌ (optional)  |
+
+---
+
+### 3. Known Limitations
+
+* No session memory (chat resets every message)
+* Limited Hindi NLP understanding
+* Rule-based responses only
+
+---
+
+## 🧠 Future Improvements
+
+* Add session memory
+* Improve Hindi NLP
+* Add more schemes
+* Add voice output (TTS)
+* Add location-based recommendations
+
+---
+
+## 🛠️ Tech Stack
+
+* React (Frontend)
+* Node.js + Express (Backend)
+* Vosk (Offline Speech Recognition)
+* FFmpeg (Audio Processing)
+
+---
+
+## 👨‍💻 Author
+
+Built for rural accessibility and offline-first AI systems.
+
+---
+
+## ⚡ Quick Start (TL;DR)
+
+```
+# Backend
+cd backend
+npm install
+node server.js
+
+# Frontend
+cd ..
+npm install
+npm start
+```
+
+---
+
+If something breaks, check:
+
+* FFmpeg installed?
+* Vosk model path correct?
+* Backend running on port 5000?
+* Console logs for errors?
+
+```
+```

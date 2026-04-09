@@ -16,11 +16,13 @@ while True:
     data = wf.readframes(4000)
     if len(data) == 0:
         break
-    if rec.AcceptWaveform(data):
-        res = json.loads(rec.Result())
-        text += res.get("text", "") + " "
 
-final = json.loads(rec.FinalResult())
-text += final.get("text", "")
+    if rec.AcceptWaveform(data):
+        result = json.loads(rec.Result())
+        text += " " + result.get("text", "")
+
+# FINAL RESULT (VERY IMPORTANT)
+final_result = json.loads(rec.FinalResult())
+text += " " + final_result.get("text", "")
 
 print(json.dumps({"text": text.strip()}))
