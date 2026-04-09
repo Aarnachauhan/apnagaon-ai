@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Features.css";
 
 const Features = () => {
@@ -15,12 +16,18 @@ const Features = () => {
           <div className="bottom-icon">🌱</div>
         </div>
 
-        <div className="feature-card">
-          <div className="icon-circle">💰</div>
-          <h3>Mandi Tracker</h3>
-          <p>Compare prices from nearby mandis and sell at the right time.</p>
-          <div className="bottom-icon">🏪</div>
-        </div>
+        {/* ✅ CLICKABLE MANDI CARD */}
+        <Link 
+          to="/mandi" 
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="feature-card">
+            <div className="icon-circle">💰</div>
+            <h3>Mandi Tracker</h3>
+            <p>Compare prices from nearby mandis and sell at the right time.</p>
+            <div className="bottom-icon">🏪</div>
+          </div>
+        </Link>
 
         <div className="feature-card">
           <div className="icon-circle">📋</div>
