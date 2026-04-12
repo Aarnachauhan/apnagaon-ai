@@ -1,15 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Features.css";
+import { useNavigate } from "react-router-dom";
 
 const Features = () => {
+  const navigate = useNavigate();
   return (
+    
     <div className="features-section">
 
       {/* TOP CARDS */}
       <div className="features-grid">
 
-        <div className="feature-card">
+        <div className="feature-card"
+        onClick={() => navigate("/crop")}
+  style={{ cursor: "pointer" }}>
           <div className="icon-circle">🌿</div>
           <h3>Crop Advisory</h3>
           <p>Ask about any crop problem. Get one clear action.</p>
@@ -28,6 +33,8 @@ const Features = () => {
             <div className="bottom-icon">🏪</div>
           </div>
         </Link>
+
+        
 
         <div className="feature-card">
           <div className="icon-circle">📋</div>

@@ -8,6 +8,10 @@
   justify-content: center;
   gap: 25px;
 }
+.feature-card:hover {
+  transform: scale(1.05);
+  transition: 0.2s;
+}
 
 /* CARD */
 .feature-card {

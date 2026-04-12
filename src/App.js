@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
 import ChatPage from "./components/ChatPage";
+import CropPage from "./components/CropPage";
 
 // 👇 import from second project (adjust paths if needed)
 import { mandis } from "./data/mandisData";
@@ -148,7 +149,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/chat" element={<ChatPage />} />
-      <Route path="/mandi" element={<MandiPage />} /> {/* 👈 NEW ROUTE */}
+      <Route path="/mandi" element={<MandiPage />} /> 
+      <Route path="/crop" element={<CropPage />} /> 
     </Routes>
   );
 }
